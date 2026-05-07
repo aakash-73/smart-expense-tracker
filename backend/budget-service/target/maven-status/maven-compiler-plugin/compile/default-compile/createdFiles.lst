@@ -1,0 +1,10 @@
+com\smarttracker\budgetservice\config\IgniteCacheConfig.class
+com\smarttracker\budgetservice\kafka\KafkaBudgetEventPublisher.class
+com\smarttracker\budgetservice\kafka\BudgetEventProducer.class
+com\smarttracker\budgetservice\BudgetServiceApplication.class
+com\smarttracker\budgetservice\model\Budget.class
+com\smarttracker\budgetservice\model\ExpenseItem.class
+com\smarttracker\budgetservice\service\BudgetService.class
+com\smarttracker\budgetservice\model\Budget$BudgetBuilder.class
+com\smarttracker\budgetservice\repository\BudgetRepository.class
+com\smarttracker\budgetservice\config\IgniteConfig.class

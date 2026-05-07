@@ -1,0 +1,5 @@
+com\smarttracker\common\dto\ApiResponse.class
+com\smarttracker\common\config\MongoConfig.class
+com\smarttracker\common\model\Role.class
+com\smarttracker\common\config\JwtConstants.class
+com\smarttracker\common\config\KafkaTopics.class

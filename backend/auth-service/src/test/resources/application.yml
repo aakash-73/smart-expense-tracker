@@ -1,0 +1,31 @@
+# Test configuration - safe dummy values used ONLY during tests
+# Real credentials are NEVER stored here
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/auth-test
+    auto-index-creation: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: test-client-id
+            client-secret: test-client-secret
+            scope:
+              - openid
+              - profile
+              - email
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+
+  # Do NOT load .env during tests - this file supplies all needed values
+  config:
+    import: ""
+
+jwt:
+  secret: test-jwt-secret-that-is-long-enough-for-hs256-signing-unit-tests
