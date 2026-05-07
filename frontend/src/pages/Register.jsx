@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Zap, Mail, Lock, Eye, EyeOff, User, ArrowRight, CheckCircle } from 'lucide-react';
-import { register } from '../services/service';
+import { register } from '../services/authService';
 import { AuthContext } from '../context/AuthContext';
 
 const requirements = [

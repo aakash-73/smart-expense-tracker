@@ -1,9 +1,9 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import Login from './Login';
-import * as service from '../services/service';
+import * as service from '../services/authService';
 
-vi.mock('../services/service', () => ({
+vi.mock('../services/authService', () => ({
   login: vi.fn(),
 }));
 
