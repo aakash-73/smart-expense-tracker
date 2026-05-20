@@ -4,6 +4,126 @@ A modern microservices-based web application for tracking personal expenses, set
 
 ---
 
+## Getting Started
+
+### Prerequisites
+
+Make sure you have the following installed before running the project:
+
+| Tool | Version | Download |
+|---|---|---|
+| **Docker Desktop** | Latest | https://www.docker.com/products/docker-desktop |
+| **Java JDK** | 17 | https://adoptium.net |
+| **Node.js** | 18+ | https://nodejs.org |
+
+---
+
+### 1. Clone the repository
+
+```bash
+git clone <your-repo-url>
+cd smart-expense-tracker
+```
+
+---
+
+### 2. Set up environment variables
+
+The services read secrets from a `.env` file that is **not** committed to the repo.
+
+```bash
+cd backend
+cp .env.example .env
+```
+
+Then open `backend/.env` and fill in `JWT_SECRET` with a long random string:
+
+```bash
+# Generate a secure secret (run this in your terminal):
+openssl rand -base64 64
+```
+
+Paste the output as the value of `JWT_SECRET` in your `.env` file. The other values work as-is for local development.
+
+---
+
+### 3. Install frontend dependencies
+
+```bash
+cd frontend
+npm install
+```
+
+---
+
+### 4. Start infrastructure (Docker)
+
+From the `docker/` folder:
+
+```bash
+cd docker
+docker-compose up -d
+```
+
+This starts MongoDB (27017), Kafka (9092), Zookeeper (2181), and Ignite (18080).
+
+---
+
+### 5. Start backend services
+
+Open a separate terminal for each service (from the `backend/` folder):
+
+```bash
+# Terminal 1 — Auth Service
+.\mvnw spring-boot:run -pl auth-service          # Windows
+./mvnw spring-boot:run -pl auth-service          # Mac/Linux
+
+# Terminal 2 — Transaction Service
+.\mvnw spring-boot:run -pl transaction-service
+
+# Terminal 3 — Budget Service
+.\mvnw spring-boot:run -pl budget-service
+
+# Terminal 4 — Analytics Service
+.\mvnw spring-boot:run -pl analytics-service
+
+# Terminal 5 — API Gateway
+.\mvnw spring-boot:run -pl gateway-service
+```
+
+| Service | Port |
+|---|---|
+| API Gateway | 8080 |
+| Auth Service | 8081 |
+| Transaction Service | 8082 |
+| Analytics Service | 8083 |
+| Budget Service | 8085 |
+
+---
+
+### 6. Start the frontend
+
+```bash
+cd frontend
+npm run dev
+```
+
+Open **http://localhost:5173** in your browser.
+
+---
+
+### Stopping everything
+
+```bash
+# Stop backend services — Ctrl+C in each terminal
+
+# Stop Docker containers
+cd docker
+docker-compose down
+```
+
+---
+
 ## System Architecture & Flow Diagrams
 
 ### 1. High-Level Architecture
