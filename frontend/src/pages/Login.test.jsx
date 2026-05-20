@@ -1,11 +1,14 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import Login from './Login';
-import * as service from '../services/authService';
 
+// Mock the entire module — no need to import the real file
 vi.mock('../services/authService', () => ({
   login: vi.fn(),
 }));
+
+// Access the mock via the virtual module reference only
+const { login: mockLogin } = await import('../services/authService');
 
 describe('Login Component', () => {
   it('renders login form correctly', () => {

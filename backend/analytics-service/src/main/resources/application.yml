@@ -10,20 +10,8 @@ spring:
       uri: ${MONGODB_URI:mongodb://localhost:27017/smart-expense-tracker}
     auto-index-creation: true
 
-  kafka:
-    bootstrap-servers: ${KAFKA_BROKER:localhost:9092}
-    consumer:
-      group-id: analytics-service-group
-      auto-offset-reset: earliest
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-
   config:
     import: optional:file:../.env[.properties]
-
-jwt:
-  secret: ${JWT_SECRET}
 
 logging:
   level:

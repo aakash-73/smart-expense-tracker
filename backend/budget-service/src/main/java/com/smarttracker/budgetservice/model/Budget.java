@@ -4,19 +4,17 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "budgets")
+@Document(collection = "budget_categories")
 public class Budget {
     @Id
     private String id;
+
     private String userId;
-    private double estimatedIncome;
-    private double savingsGoal;
-    private String month;
-    private List<ExpenseItem> expenses;
+    private String category;
+    private double monthlyLimit;
+    private String icon;        // emoji, e.g. "🛒"
 }

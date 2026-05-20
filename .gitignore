@@ -1,4 +1,44 @@
+# ========================
+# Secrets — never commit
+# ========================
 .env
-.json
-client_secret_189397252627-gm0ed9qom5f53g70bqub5qhpmpiccdq1.apps.googleusercontent.com.json
-text.json
+*.json
+*.txt
+*.lst
+client_secret_*.json
+
+# ========================
+# Java / Maven build output
+# ========================
+**/target/
+**/*.class
+**/*.jar
+**/*.war
+
+# ========================
+# Apache Ignite runtime data
+# ========================
+**/ignite/
+**/ignite-log/
+
+# ========================
+# Frontend
+# ========================
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# ========================
+# IDE / OS
+# ========================
+.idea/
+*.iml
+.vscode/
+.DS_Store
+Thumbs.db
+
+# ========================
+# Claude Code internals
+# ========================
+.claude/
+.clone/

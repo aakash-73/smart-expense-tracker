@@ -2,7 +2,6 @@ package com.smarttracker.transactionservice.model;
 
 import java.time.Instant;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -18,13 +17,13 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Transaction {
     @Id
-    private ObjectId id;
+    private String id;          // hex string — MongoDB auto-generates ObjectId on insert
 
     private String userId;
-    private String type; // "INCOME" or "EXPENSE"
+    private String type;        // "INCOME" or "EXPENSE"
     private String category;
     private Double amount;
     private String description;
     @Builder.Default
-    private Instant timestamp = Instant.now(); // auto-set when object is created
+    private Instant timestamp = Instant.now();
 }

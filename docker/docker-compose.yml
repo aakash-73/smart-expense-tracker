@@ -35,7 +35,7 @@ services:
       - "47100:47100"
       - "47500:47500"
       - "10800:10800"
-      - "8081:8080" # Maps Ignite REST API to 8081 to avoid clashing with Gateway
+      - "18080:8080" # Ignite REST API on 18080 — keeps 8081 free for auth-service
     environment:
       - IGNITE_QUIET=false
 
