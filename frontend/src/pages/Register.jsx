@@ -1,8 +1,7 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Zap, Mail, Lock, Eye, EyeOff, User, ArrowRight, CheckCircle } from 'lucide-react';
 import { register } from '../services/authService';
-import { AuthContext } from '../context/AuthContext';
 
 const requirements = [
   { label: 'At least 8 characters',    test: (pw) => pw.length >= 8 },
@@ -11,12 +10,11 @@ const requirements = [
 ];
 
 export default function Register() {
-  const [form, setForm] = useState({ username: '', email: '', password: '', confirm: '' });
+  const [form, setForm]             = useState({ username: '', email: '', password: '', confirm: '' });
   const [showPw, setShowPw]         = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [error, setError]           = useState('');
   const [loading, setLoading]       = useState(false);
-  const { loginContext }            = useContext(AuthContext);
   const navigate                    = useNavigate();
 
   const set = (field) => (e) => setForm((p) => ({ ...p, [field]: e.target.value }));
@@ -36,17 +34,16 @@ export default function Register() {
 
     setLoading(true);
     try {
-      const token = await register(form.username, form.password, form.email);
-      // If the backend returns a token on register, log them in directly
-      if (token) {
-        loginContext(token);
-        navigate('/dashboard');
-      } else {
-        navigate('/login');
-      }
+      // Backend returns 201 with no body — just navigate to login on success
+      await register(form.username, form.email, form.password);
+      navigate('/login', { state: { registered: true } });
     } catch (err) {
-      const msg = err?.response?.data?.message || err?.response?.data || 'Registration failed. Please try again.';
-      setError(typeof msg === 'string' ? msg : 'Registration failed. Please try again.');
+      const msg = err?.response?.data?.message || err?.response?.data;
+      if (!err.response) {
+        setError('Cannot connect to server. Make sure the backend is running.');
+      } else {
+        setError(typeof msg === 'string' ? msg : 'Registration failed. Please try again.');
+      }
     } finally {
       setLoading(false);
     }

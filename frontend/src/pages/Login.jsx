@@ -1,28 +1,31 @@
 import { useState, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Zap, Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';
 import { login } from '../services/authService';
 import { AuthContext } from '../context/AuthContext';
 
 export default function Login() {
-  const [username, setUsername] = useState('');
+  const location                = useLocation();
+  const justRegistered          = location.state?.registered === true;
+  const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
-  const [showPw, setShowPw] = useState(false);
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const { loginContext } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const [showPw, setShowPw]     = useState(false);
+  const [error, setError]       = useState('');
+  const [loading, setLoading]   = useState(false);
+  const { loginContext }        = useContext(AuthContext);
+  const navigate                = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
     try {
-      const token = await login(username, password);
-      loginContext(token);
+      const token = await login(email, password);
+      loginContext(token);   // AuthContext owns token storage — no double-store
       navigate('/dashboard');
-    } catch {
-      setError('Invalid credentials. Please try again.');
+    } catch (err) {
+      const msg = err?.response?.data?.message || err?.response?.data;
+      setError(typeof msg === 'string' ? msg : 'Invalid credentials. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -73,6 +76,20 @@ export default function Login() {
             Sign in to manage your finances
           </p>
 
+          {justRegistered && (
+            <div style={{
+              background: 'rgba(34,197,94,0.1)',
+              border: '1px solid rgba(34,197,94,0.25)',
+              borderRadius: 'var(--radius-sm)',
+              padding: '0.75rem 1rem',
+              color: 'var(--green)',
+              fontSize: '0.85rem',
+              marginBottom: '1.25rem',
+            }}>
+              Account created successfully — sign in below.
+            </div>
+          )}
+
           {error && (
             <div style={{
               background: 'rgba(239,68,68,0.1)',
@@ -88,19 +105,20 @@ export default function Login() {
           )}
 
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
-            {/* Username */}
+            {/* Email */}
             <div>
-              <label htmlFor="login-username">Username</label>
+              <label htmlFor="login-email">Email address</label>
               <div style={{ position: 'relative' }}>
                 <Mail size={16} color="var(--text-3)" style={{ position: 'absolute', left: '0.85rem', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
                 <input
-                  id="login-username"
-                  type="text"
+                  id="login-email"
+                  type="email"
                   placeholder="your@email.com"
-                  value={username}
-                  onChange={e => setUsername(e.target.value)}
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
                   style={{ paddingLeft: '2.5rem' }}
                   required
+                  autoComplete="email"
                 />
               </div>
             </div>
